@@ -1,6 +1,6 @@
 <?php
   session_start();
-  include 'app/library_admin.php';
+  include 'app/routeadmin.php';
   if(!isset($_SESSION['isLoginAdmin'])){
     header("Location:login.php"); 
     exit;

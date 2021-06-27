@@ -13,7 +13,7 @@
       dashboard();
     }
     if($page == 'buku'){
-      echo 'buku';
+      buku();
     }
     if($page == 'transaksi'){
       echo 'transaksi';
