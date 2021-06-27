@@ -13,8 +13,12 @@ function layoutHeader(){
 }
 
 // fungsi sidebar
-function layoutSidebar(){
+function layoutSidebar($nama){
   $page = GET('pages','');
+  if(!isset($_GET['pages']) && !isset($_GET['views'])) {
+      $page = 'dashboard';
+      $view = 'index';
+  }
   echo '<!-- Sidebar -->
         <div class="sidebar">
         <div class="sidebar-header">
@@ -25,7 +29,7 @@ function layoutSidebar(){
             <div class="sidebar-akun">
               <img src="assets/img/male-default.svg" alt="img-sidebar">
               <div class="sidebar-user">
-                <p>Yayak Yogi Ginantaka</p>
+                <p>'.$nama.'</p>
                 <a href="#"><img src="assets/icons/search.png" alt="img-search"></a>
               </div>
             </div>
@@ -35,7 +39,7 @@ function layoutSidebar(){
             <a href="?pages=buku&views=index"><img src="assets/icons/contact-list.png" alt="contact">Data Buku</a>
             <a href="?pages=transaksi&views=index"><img src="assets/icons/transaction-history.png" alt="transaction">Data Transaksi</a>
             <a href="?pages=anggota&views=index"><img src="assets/icons/group.png" alt="group">Data Anggota</a>
-            <a href="?pages=logout"><img src="assets/icons/logout.png" class="img-logout">Logout</a>
+            <a href="app/logout.php"><img src="assets/icons/logout.png" class="img-logout">Logout</a>
         </div>
     </div>
   ';

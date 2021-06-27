@@ -1,9 +1,78 @@
 <?php 
+session_start();
+include 'app/koneksi.php';
+
+// cek apakah session login masih ada atau tidak
+if(isset($_SESSION['isLoginSuperadmin']))
+{
+  header("Location:app/superadmin/index.php");
+  exit;
+}
+if(isset($_SESSION['isLoginAdmin']) || isset($_SESSION['isLoginSuperadmin']))
+{
+  header("Location:index.php");
+  exit;
+}
+
+// cek error ketika belum login
+if(isset($_GET['pesan']))
+{
+  if($_GET['pesan'] == 'error_login')
+  {
+    echo "Anda belum login, silahkan login terlebih dahulu";
+  }
+}
+
+// cek apakah tombol login sudah diklik atau belum
+if(isset($_POST['submit']))
+{
+  $mail = GET('email','');
+  $pass = GET('password','');
+
+  $query = "SELECT * FROM tb_admin WHERE email='$mail'";
+  $result = mysqli_query($koneksi,$query);
+  
+  if(mysqli_num_rows($result))
+  {
+    // ambil data user
+    $row = mysqli_fetch_assoc($result);
+    // cek papssword
+    if(password_verify($pass,$row['password']))
+    {  
+    // cek roles
+      if($row['roles'] == 'superadmin')
+      {
+        // buat session
+        $_SESSION['isLoginSuperadmin']=true;
+
+        // cek tombol checkbox
+        if(isset($_POST['rememberme']))
+        {
+          // menset cookie agar bisa auto login setelah keluar browser
+          setcookie('id',$row['id'],time()+60);
+          setcookie('key',hash('sha256',$row['email'],time()+60));
+        }
+        header("Location:app/superadmin/index.php"); 
+      }
+      else
+      {
+        // jika yang login admin
+        $_SESSION['isLoginAdmin']=true;
+        header("Location:index.php");
+      }
+    }
+    else
+      echo "Password salah silahkan ulangi lagi";
+  }
+  else
+    echo "Email tidak terdaftar";
+}
+
 echo '<!DOCTYPE html>
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+        <link rel="stylesheet" type="text/css" href="assets/style.css">
         <title>SIMP</title>
       </head>
       <body>
@@ -20,7 +89,7 @@ echo '<!DOCTYPE html>
               <form name="form-login" action="" method="POST">
                 <div class="form-group">
                   <label class="lb-login" for="username">Username</label><br>
-                  <input type="text" autocomplete="off" class="inp-login" name="username" placeholder="Username">
+                  <input type="text" autocomplete="off" class="inp-login" name="email" placeholder="Username">
                 </div>
                 <div class="form-group">
                   <label class="lb-login" for="password">Password</label><br>
@@ -29,11 +98,11 @@ echo '<!DOCTYPE html>
                 <div class="from-group cbk">
                   <input type="checkbox" name="rememberme" id="remember"><label for="remember" class="rmb">Remember me</label>
                 </div>
-                <button type="submit" class="btn-login btn-md">Login</button>
+                <button type="submit" name="submit" class="btn-login btn-md">Login</button>
               </form> 
             </div><!-- ./content-right -->
           </div><!-- ./content-login -->
-          <p class="cprght">Copyright &copy; KuliKode 2021 - All Right Reserved</p>
+          <p class="cprght">Copyright &copy; Yayak Yogi 2021 - All Right Reserved</p>
           <img class="wave-login" src="assets/img/wave-login.svg" alt="wave-login">
         </div><!-- ./login -->
       </body>

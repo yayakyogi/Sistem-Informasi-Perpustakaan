@@ -2,8 +2,7 @@
   include 'koneksi.php';
   include 'template.php';
   include 'tabel.php';
-  include 'view-dashboard.php';
-  include 'view-anggota.php';
+  include 'view_admin.php';
   
   $page = GET('pages','dashboard');
   $view = GET('views','index');
@@ -27,12 +26,13 @@
   function main(){
     global $page;
     global $view;
+    $nama = "Yayak Yogi";
     layoutHeader();
-    layoutSidebar();
+    layoutSidebar($nama);
     layoutNavbar();
     echo '<div class="main-content">';
     echo '<div class="breadcrumb">';
-    echo '<span><a href="?pages='.$page.'&views=index">'.$page.'</a> &#10095; <b>'.$view.'</b></span>';
+    echo '<span><a href="?pages='.$page.'&views=index">'.$page.'</a> &#10095; <span>'.$view.'</span></span>';
     echo '</div>';
     echo '<div class="content">';
       halaman();
