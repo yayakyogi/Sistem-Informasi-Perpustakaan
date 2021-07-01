@@ -4,16 +4,16 @@
   box-sizing: border-box;
 }
 @font-face {
-  font-family: "Roboto-Regular";
-  src: url("fonts/Roboto/Roboto-Regular.ttf");
+  font-family: "Poppins-Regular";
+  src: url("fonts/Poppins/Poppins-Regular.ttf");
 }
 @font-face {
-  font-family: "Roboto-Black";
-  src: url("fonts/Roboto/Roboto-Black.ttf");
+  font-family: "Poppins-Black";
+  src: url("fonts/Poppins/Poppins-Black.ttf");
 }
 @font-face {
-  font-family: "Roboto-Light";
-  src: url("fonts/Roboto/Roboto-Light.ttf");
+  font-family: "Poppins-Light";
+  src: url("fonts/Poppins/Poppins-Light.ttf");
 }
 @font-face {
   font-family: "Galada";
@@ -26,7 +26,7 @@ body {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  font-family: "Roboto-Regular";
+  font-family: "Poppins-Regular";
 }
 /* Sidebar Dashboard*/
 .sidebar {
@@ -56,7 +56,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 2px;
   font-size: 12px;
-  font-family: "Roboto-BLack";
+  font-family: "Poppins-Black";
 }
 .sidebar-close {
   display: none;
@@ -85,7 +85,7 @@ body {
   background: none;
 }
 .sidebar-user p {
-  font-family: "Roboto-Light";
+  font-family: "Poppins-Light";
   font-size: 14px;
 }
 .sidebar-user a {
@@ -190,7 +190,7 @@ body {
   font-size: 11px;
   margin: 5px 280px 0 0;
   display: inline-block;
-  font-family: "Roboto-Light";
+  font-family: "Poppins-Light";
 }
 /* Main Content */
 .main-content {
@@ -293,13 +293,13 @@ table th {
   border-bottom: 2px solid #e3e3e3;
   text-align: left;
   background: #d9d9da;
-  font-family: "Roboto-Light";
+  font-family: "Poppins-Light";
 }
 table td {
   padding: 10px;
   font-size: 14px;
   border-bottom: 1px solid #ddd;
-  font-family: "Roboto-Regular";
+  font-family: "Poppins-Regular";
 }
 table th:nth-child(1),
 table th:nth-child(6),
@@ -322,7 +322,7 @@ table tr:hover {
   padding: 10px;
   font-size: 15px;
   border-bottom: 1px solid #ddd;
-  font-family: "Roboto-Regular";
+  font-family: "Poppins-Regular";
 }
 .table-profile tr {
   background: #ffffff !important;
@@ -354,7 +354,7 @@ table td:nth-child(1) {
   border-radius: 5px;
   text-decoration: none;
   margin: 2px;
-  font-family: "Roboto-Regular";
+  font-family: "Poppins-Regular";
   display: inline-block;
   border: none;
 }
@@ -433,7 +433,7 @@ legend {
   color: white;
   padding: 10px 20px;
   text-transform: uppercase;
-  font-family: "Roboto-Light";
+  font-family: "Poppins-Light";
   font-size: 12px;
 }
 label {
@@ -466,7 +466,7 @@ textarea {
   border: none;
   background: #5a35a0;
   color: white;
-  font-family: "Roboto-Black";
+  font-family: "Poppins-Black";
   font-size: 15px;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -486,7 +486,7 @@ textarea {
   justify-content: center;
   align-items: center;
   height: 635px;
-  font-family: "Roboto-Regular";
+  font-family: "Poppins-Regular";
 }
 .wave-login {
   z-index: -1;
@@ -514,12 +514,12 @@ textarea {
 }
 .content-left h5 {
   font-size: 20px;
-  font-family: "Roboto-Light";
+  font-family: "Poppins-Light";
 }
 .content-left span {
   color: #6e6e6e;
   font-size: 12px;
-  font-family: "Roboto-Light";
+  font-family: "Poppins-Light";
 }
 
 .content-right {
@@ -536,7 +536,7 @@ textarea {
 .content-right span {
   color: #353535;
   font-size: 13px;
-  font-family: "Roboto-Light";
+  font-family: "Poppins-Light";
   display: inline-block;
   margin-bottom: 20px;
 }
@@ -594,7 +594,7 @@ textarea {
   bottom: 15px;
   text-align: center;
   color: white;
-  font-family: "Roboto-Light";
+  font-family: "Poppins-Light";
   font-size: 12px;
   letter-spacing: 1px;
 }
@@ -610,7 +610,7 @@ textarea {
   border-radius: 5px;
   color: white;
   margin: 20px 0 10px;
-  font-family: "Roboto-Light";
+  font-family: "Poppins-Light";
 }
 .alert-danger {
   background: #d9534f;
@@ -632,7 +632,7 @@ textarea {
 }
 .data-count {
   font-size: 12px;
-  font-family: "Roboto-Light";
+  font-family: "Poppins-Light";
 }
 @media (max-width: 768px) {
   /* Sidebar */
@@ -778,5 +778,10 @@ textarea {
   }
   .wave-login {
     display: none;
+  }
+
+  /* Halaman admin - Profil admin */
+  .picture-admin {
+    width: 100%;
   }
 }

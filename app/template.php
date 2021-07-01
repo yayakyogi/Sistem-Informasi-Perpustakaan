@@ -30,7 +30,7 @@ function layoutSidebar($nama){
               <img src="assets/img/male-default.svg" alt="img-sidebar">
               <div class="sidebar-user">
                 <p>'.$nama.'</p>
-                <a href="?pages=profileAdmin"><img src="assets/icons/search.png" alt="img-search"></a>
+                <a href="?pages=profileAdmin&views=index"><img src="assets/icons/search.png" alt="img-search"></a>
               </div>
             </div>
         </div>

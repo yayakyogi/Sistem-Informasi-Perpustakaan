@@ -82,7 +82,7 @@ echo '<!DOCTYPE html>
             <div class="content-left">
               <h5>Selamat Datang</h5>
               <span>Login untuk melanjutkan</span>
-              <img class="img-login" src="assets/img/login-welcome.png" alt="img-login">
+              <img class="img-login" src="assets/icons/books.png" alt="img-login">
             </div>
             <div class="content-right">
               <h3>SIMP</h3>
@@ -103,7 +103,7 @@ echo '<!DOCTYPE html>
               </form> 
             </div><!-- ./content-right -->
           </div><!-- ./content-login -->
-          <p class="cprght">Copyright &copy; Yayak Yogi 2021 - All Right Reserved</p>
+          <p class="cprght">Copyright &copy; Yayak Yogi 2021 - All Rights Reserved</p>
           <img class="wave-login" src="assets/img/wave-login.svg" alt="wave-login">
         </div><!-- ./login -->
       </body>

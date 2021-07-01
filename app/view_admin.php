@@ -1014,40 +1014,99 @@
   function profileAdmin()
   {
     global $koneksi;
+    global $pages;
+    global $views;
+
     $email = $_SESSION['email'];
-    $profile = "SELECT * FROM tb_admin WHERE email='$email'";
-    $sql = mysqli_query($koneksi,$profile);
-    $result = mysqli_fetch_assoc($sql);
-    echo '
-        <div class="wrapper">
-          <h2>Profil Admin</h2><br>
-          <div class="picture-admin">
-            <img src="assets/img/male-default.svg" alt="img-sidebar"><br>
-            <a href="#">Update Photo</a>
+    // page index admin
+    if($views=='index')
+    {
+      $profile = "SELECT * FROM tb_admin WHERE email='$email'";
+      $sql = mysqli_query($koneksi,$profile);
+      $result = mysqli_fetch_assoc($sql);
+      echo '
+          <div class="wrapper">
+            <h2>Profil Admin</h2><br>
+            <div class="picture-admin">
+              <img src="assets/img/male-default.svg" alt="img-sidebar"><br>
+              <a href="#">Update Photo</a>
+            </div>
+            <div class="table-responsive">
+              <table class="table-profile">
+                <tr>
+                  <td width="15%">Email</td>
+                  <td>'.$result['email'].'</td>
+                </tr>
+                <tr>
+                  <td width="15%">Nama</td>
+                  <td>'.strtoupper($result['nama']).'</td>
+                </tr>
+                <tr>
+                  <td>Jenis Kelamin</td>
+                  <td>'.$result['jenis_kelamin'].'</td>
+                </tr>
+                <tr>
+                  <td>Alamat</td>
+                  <td>'.$result['alamat'].'</td>
+                </tr>
+                <tr>
+                  <td>No Telepon</td>
+                  <td>'.$result['telepon'].'</td>
+                </tr>
+              </table>
+              <br>
+              <a class="btn-success btn-md" href="?pages='.$pages.'&views=update&id='.$result['id'].'">&#x270E; Edit Profil</a>
+            </div>
           </div>
-          <div class="table-responsive">
-            <table class="table-profile">
-              <tr>
-                <td width="15%">Nama</td>
-                <td>'.strtoupper($result['nama']).'</td>
-              </tr>
-              <tr>
-                <td>Jenis Kelamin</td>
-                <td>'.$result['jenis_kelamin'].'</td>
-              </tr>
-              <tr>
-                <td>Alamat</td>
-                <td>'.$result['alamat'].'</td>
-              </tr>
-              <tr>
-                <td>Nomor Telepon</td>
-                <td>'.$result['telepon'].'</td>
-              </tr>
-            </table>
-            <br>
-            <a class="btn-success btn-md" href="">&#x270E; Edit Profil</a>
-          </div>
-        </div>
-    ';
+      ';
+    }
+    // end page index admin
+
+    // page update data admin
+    if($views=='update')
+    {
+      $id = GET('id','');
+      $exec = GET('exec','');
+
+      if($id!='' && $exec!='')
+      {
+        // KURANG QUERY UPDATE DATA ADMIN
+      }
+      $query = "SELECT * FROM tb_admin WHERE id='$id' AND deleted_at IS NULL";
+      $sql = mysqli_query($koneksi,$query);
+      $row = mysqli_fetch_assoc($sql);
+
+       echo '<fieldset class="box-shadow fieldset"><legend class="box-shadow">Edit Profil</legend>
+                <form name="formEditDataAdmin" action="?pages='.$pages.'&views='.$views.'" method="POST">
+                  <input type="hidden" name="exec" value="'.time().'">
+                  <input type="hidden" name="id" value="'.$row['id'].'">';
+                  echo '<div class="form-group">
+                          <label for="email">Email</label><br>
+                          <input type="text" name="email" placeholder="Email anda" id="email" class="form-control" required value="'.$row['email'].'">
+                        </div>';
+                  echo '<div class="form-group">
+                          <label for="nama">Nama</label><br>
+                          <input type="text" name="nama" placeholder="Nama anda" id="nama" class="form-control" required value="'.$row['nama'].'">
+                        </div>';
+                  echo '<div class="form-group">
+                          <label for="jk">Jenis Kelamin</label><br>';
+                          echo '<input id="jk" type="radio" name="jenis_kelamin" value="Laki-laki" style="margin:10px 0"'; if($row['jenis_kelamin'] == 'Laki-laki') echo "checked" ; echo'> <span class="value-radio">Laki-laki</span><br>';
+                          echo '<input id="jk" type="radio" name="jenis_kelamin" value="Perempuan" style="margin-bottom:10px"'; if($row["jenis_kelamin"] == "Perempuan") echo "checked"; echo'> <span class="value-radio">Perempuan</span>
+                        </div>';
+                  echo '<div class="form-group">
+                          <label for="alamat">ALamat</label>
+                          <textarea name="alamat" class="form-control">'.$row['alamat'].'</textarea>
+                        </div>';
+                  echo '<div class="form-group">
+                          <label for="no_telepon">No Telepon</label>
+                          <input type="text" class="form-control" name="telepon" value="'.$row['telepon'].'"/>
+                        </div>';
+                  echo '<button type="submit" class="btn-simpan btn-md">Simpan</button>
+                      <a href="?pages='.$pages.'&views=index" class="btn-default btn-md">Kembali</a>
+                  </form>
+              </fieldset>
+          ';
+    }
+    // end page update data admin
   }
 ?>
