@@ -20,7 +20,7 @@
       return $sql;
   }
   
-  function tb_user($koneksi)
+  function tb_anggota($koneksi)
   {
     $query = "CREATE TABLE IF NOT EXISTS tb_user(
               id VARCHAR(32) NOT NULL,
@@ -43,7 +43,9 @@
     $query = "CREATE TABLE IF NOT EXISTS tb_transaksi(
               id INT(20) NOT NULL,
               anggota_id VARCHAR(32) NOT NULL,
-              buku_id INT(20) NOT NULL,
+              anggota VARCHAR(255) NOT NULL,
+              buku_id VARCHAR (64) NOT NULL,
+              buku VARCHAR (255) NOT NULL,
               tanggal_pinjam DATETIME NOT NULL,
               tanggal_kembali DATETIME NULL,
               created_at DATETIME NOT NULL,

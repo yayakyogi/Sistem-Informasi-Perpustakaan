@@ -55,7 +55,7 @@ body {
 .sidebar-title span {
   text-transform: uppercase;
   letter-spacing: 2px;
-  font-size: 15px;
+  font-size: 12px;
   font-family: "Roboto-BLack";
 }
 .sidebar-close {
@@ -156,7 +156,7 @@ body {
   padding: 0 20px;
   background-color: #7a48d8;
   width: 100%;
-  /* position: fixed; */
+  position: fixed;
   top: 0;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
 }
@@ -296,8 +296,8 @@ table th {
   font-family: "Roboto-Light";
 }
 table td {
-  padding: 15px 10px;
-  font-size: 12px;
+  padding: 10px;
+  font-size: 14px;
   border-bottom: 1px solid #ddd;
   font-family: "Roboto-Regular";
 }
@@ -315,7 +315,36 @@ table tr:nth-child(2n + 1) {
 table tr:hover {
   background: #e1dfff;
 }
-
+.table-profile {
+  width: 100%;
+}
+.table-profile td {
+  padding: 10px;
+  font-size: 15px;
+  border-bottom: 1px solid #ddd;
+  font-family: "Roboto-Regular";
+}
+.table-profile tr {
+  background: #ffffff !important;
+}
+table td:nth-child(1) {
+  text-align: left;
+}
+.picture-admin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+}
+.picture-admin a {
+  font-size: 12px;
+  text-decoration: none;
+}
+.picture-admin img {
+  width: 110px;
+  height: 110px;
+}
 /* Button */
 .btn-primary,
 .btn-warning,
@@ -325,7 +354,7 @@ table tr:hover {
   border-radius: 5px;
   text-decoration: none;
   margin: 2px;
-  font-family: "Roboto-Black";
+  font-family: "Roboto-Regular";
   display: inline-block;
   border: none;
 }
@@ -336,6 +365,7 @@ table tr:hover {
 }
 .btn-sm {
   padding: 5px 10px;
+  font-size: 12px;
   cursor: pointer !important;
 }
 /* Button warning */
@@ -380,6 +410,14 @@ table tr:hover {
 .btn-primary:hover {
   background: #0a01ff;
 }
+.alert {
+  display: block;
+  padding: 10px;
+  width: 100%;
+  background-color: #509e50;
+  color: white;
+  border-radius: 5px;
+}
 /* Form */
 .wrapper,
 .fieldset {
@@ -399,7 +437,7 @@ legend {
   font-size: 12px;
 }
 label {
-  color: #ffc107;
+  color: #7a48d8;
 }
 .form-group {
   margin-bottom: 10px;

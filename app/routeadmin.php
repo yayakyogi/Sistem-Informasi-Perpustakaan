@@ -21,12 +21,15 @@
     if($page == 'anggota'){
       anggota();
     }
+    if($page == 'profileAdmin'){
+      profileAdmin();
+    }
   }
 
   function main(){
     global $page;
     global $view;
-    $nama = "Yayak Yogi";
+    $nama = $_SESSION['email'];
     layoutHeader();
     layoutSidebar($nama);
     layoutNavbar();

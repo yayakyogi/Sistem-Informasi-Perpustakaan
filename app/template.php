@@ -23,14 +23,14 @@ function layoutSidebar($nama){
         <div class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-title">
-            <span>'.$page.'</span>
+            <span>HALAMAN '.$page.'</span>
             <span class="sidebar-close">&times;</span>
             </div>
             <div class="sidebar-akun">
               <img src="assets/img/male-default.svg" alt="img-sidebar">
               <div class="sidebar-user">
                 <p>'.$nama.'</p>
-                <a href="#"><img src="assets/icons/search.png" alt="img-search"></a>
+                <a href="?pages=profileAdmin"><img src="assets/icons/search.png" alt="img-search"></a>
               </div>
             </div>
         </div>

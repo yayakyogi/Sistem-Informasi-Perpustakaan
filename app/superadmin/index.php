@@ -1,7 +1,7 @@
 <?php
   include '../koneksi.php';
 
-  if(!isset($_SESSION['isLoginSuperadmin']))
+  if(isset($_SESSION['isLoginSuperadmin']) == true)
   {
     header("Location:../../login.php?pesan=error_login");
     exit;
