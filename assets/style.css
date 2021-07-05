@@ -476,6 +476,11 @@ textarea {
 .btn-simpan:hover {
   background: #6d48b1;
 }
+.img_cover_edit {
+  width: 200px;
+  height: 200px;
+  border-radius: 5%;
+}
 
 /* 
   STYLE HALAMAN LOGIN 
@@ -504,7 +509,7 @@ textarea {
   border-radius: 5px;
 }
 .img-login {
-  max-width: 300px;
+  max-width: 250px;
 }
 .content-left {
   display: flex;
@@ -719,6 +724,10 @@ textarea {
   }
   table td {
     font-size: 12px;
+  }
+  .img_cover_edit {
+    max-width: 100%;
+    margin: 0 auto;
   }
 
   /* Form */

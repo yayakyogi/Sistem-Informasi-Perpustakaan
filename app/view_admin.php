@@ -479,7 +479,7 @@
       $kategori = htmlspecialchars(GET('kategori',''));
       $kategori_id = htmlspecialchars(GET('kategori_id',''));
 
-      // views index pages kategori
+      // views index pages buku
       if($views == "index")
       {
           echo '<div class="wrapper">
@@ -670,7 +670,7 @@
                             }
                           echo '</select>
                         </div>';
-                    echo '<a href="?pages='.$pages.'&views=edit_photo" class="btn-success btn-md">Update cover buku</a>';
+                    echo '<a href="?pages='.$pages.'&views=updatephoto&id='.$row['id'].'" class="btn-success btn-md">Update cover buku</a>';
                     echo '<br><br>';
                   echo '<button type="submit" class="btn-simpan btn-md">Simpan</button>
                       <a href="?pages='.$pages.'&views=index" class="btn-default btn-md">Kembali</a>
@@ -851,6 +851,64 @@
             ';
        }
       //  end hapus permanen anggota
+
+      // update photo
+      if($views == "updatephoto")
+      {
+        $id = GET('id','');
+        $exec = GET('exec','');
+        if($id!='' && $exec!='')
+        {
+          $nama_file = $_FILES['cover']['name']; // tangkap nama file
+          if($nama_file!='')
+          {
+           $x = explode('.',$nama_file); // pisahkan nama file dengan ektenasi
+            $ekstensi = strtolower(end($x)); // ubah ektensi file yang didapat ke lower case
+            $file_tmp = $_FILES['cover']['tmp_name']; // tangkap file temporary file
+            $size = $_FILES['cover']['size']; // tangkap ukuran file
+            $target_dir = "assets/cover_buku/"; // direktori tempat menyimpan file
+            $ektensi_diperbolehkan = array('png','jpg','jpeg');
+            // cek ekstensi yang diperbolehkan
+              if(in_array($ekstensi,$ektensi_diperbolehkan) === true)
+              {
+                // cek ukuran file
+                if($size<2044070)
+                {
+                  $time = time(); // buat variabel untuk menyimpan waktu
+                  $file = $time.'_'.$nama_file; // gabungkan variabel time dan nama file untuk merubah nama file dan simpan di variabel $file
+                  move_uploaded_file($file_tmp,$target_dir.$file); // pindahkan file ke folder local
+                  $query = "UPDATE tb_buku SET cover='$file' WHERE id='$id'";
+                  $sql = mysqli_query($koneksi,$query);
+                  if($sql){
+                    GET('exec','');
+                    header('Location:?pages='.$pages.'&views=index');
+                  } else echo mysqli_error($koneksi);
+                } else echo "Ukuran file lebih dari 2Mb" ;
+              } else echo "Ektensi file tidak diizinkan";
+            GET('exec','');
+          }
+        }
+        $query = "SELECT * FROM tb_buku WHERE id = '$id' AND deleted_at IS NULL";
+        $sql = mysqli_query($koneksi,$query);
+        $row = mysqli_fetch_assoc($sql);
+        echo '<fieldset class="box-shadow fieldset"><legend class="box-shadow">Update Cover</legend>
+                <img src="assets/cover_buku/'.$row['cover'].'" class="img_cover_edit"/>
+                <br><br>
+                <form name="formEditBuku" action="?pages='.$pages.'&views='.$views.'" method="POST" enctype="multipart/form-data">
+                  <input type="hidden" name="exec" value="'.time().'">
+                  <input type="hidden" name="id" value="'.$row['id'].'">';
+                  echo '<div class="form-group">
+                          <label for="cover">Upload Cover Buku Baru</label><br>
+                          <input type="file" name="cover" id="cover" class="form-control" required>
+                        </div>';
+                  echo '<br>';
+                  echo '<button type="submit" class="btn-simpan btn-md">Simpan</button>
+                      <a href="?pages='.$pages.'&views=edit&id='.$row['id'].'" class="btn-default btn-md">Kembali</a>
+                  </form>
+              </fieldset>
+          ';
+      }
+      // end update photo
       
       /*
         ================
@@ -1017,6 +1075,14 @@
     global $pages;
     global $views;
 
+    // tangkap variabel dari form
+    $exec = htmlspecialchars(GET('exec',''));
+    $nama = htmlspecialchars(GET('nama',''));
+    $jenis_kelamin = htmlspecialchars(GET('jenis_kelamin',''));
+    $alamat = htmlspecialchars(GET('alamat',''));
+    $email = htmlspecialchars(GET('email',''));
+    $telepon = htmlspecialchars(GET('telepon',''));
+
     $email = $_SESSION['email'];
     // page index admin
     if($views=='index')
@@ -1068,9 +1134,18 @@
       $id = GET('id','');
       $exec = GET('exec','');
 
-      if($id!='' && $exec!='')
+      if($id!='' && $exec!='' && $jenis_kelamin!='' && $alamat!='' && $email!='' && $telepon!='')
       {
-        // KURANG QUERY UPDATE DATA ADMIN
+        $query = "UPDATE tb_admin SET nama='$nama',jenis_kelamin='$jenis_kelamin',alamat='$alamat',email='$email',telepon='$telepon' WHERE id='$id'";
+        $sql = mysqli_query($koneksi,$query);
+        $row = mysqli_affected_rows($koneksi);
+        if($row>0)
+        {
+          GET('id','');
+          GET('exec','');
+          header('Location:?pages='.$pages.'&views=index');
+        }
+        else mysqli_error($koneksi);
       }
       $query = "SELECT * FROM tb_admin WHERE id='$id' AND deleted_at IS NULL";
       $sql = mysqli_query($koneksi,$query);

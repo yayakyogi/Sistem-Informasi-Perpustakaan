@@ -50,7 +50,7 @@ function layoutNavbar(){
 echo '<div class="main">
         <div class="navbar">
           <span class="dsbrd-title">Sistem Informasi Perpustakaan</span>
-          <p class="nav-footer">Copyright &copy; KuliKode - 2021 All Right Reserved</p>
+          <p class="nav-footer">Copyright &copy; Yayak Yogi - 2021 All Rights Reserved</p>
           <button class="humberger-button"><img src="assets/icons/square-light.svg"></button>
         </div>
       ';
