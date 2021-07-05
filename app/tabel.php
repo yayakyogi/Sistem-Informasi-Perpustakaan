@@ -42,9 +42,7 @@
   {
     $query = "CREATE TABLE IF NOT EXISTS tb_transaksi(
               id INT(20) NOT NULL,
-              anggota_id VARCHAR(32) NOT NULL,
               anggota VARCHAR(255) NOT NULL,
-              buku_id VARCHAR (64) NOT NULL,
               buku VARCHAR (255) NOT NULL,
               tanggal_pinjam DATETIME NOT NULL,
               tanggal_kembali DATETIME NULL,

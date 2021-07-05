@@ -1065,6 +1065,123 @@
   // END FUNCTION BUKU
 
   /*
+  ========================================================================================
+  ##### HALAMAN TRANSAKSI
+  ========================================================================================
+  */
+  function transaksi()
+  {
+    global $koneksi;
+    global $pages;
+    global $views;
+
+    if($pages == 'transaksi')
+    {
+      // Buat tabel baru
+      tb_tranksaksi($koneksi);
+
+      $exec = htmlspecialchars(GET('exec',''));
+      $anggota = htmlspecialchars(GET('anggota',''));
+      $buku = htmlspecialchars(GET('buku',''));
+      $tgl_pinjam = htmlspecialchars(GET('tanggal_pinjam',''));
+      $tgl_kembali = htmlspecialchars(GET('tanggal_kembali',''));
+
+      // Views index
+      if($views == 'index')
+      {
+        echo '<div class="wrapper">
+              <a href="?pages='.$pages.'&views=tambah" class="btn-success btn-md">&#10010; Tambah Transaksi</a>
+              <a href="?pages='.$pages.'&views=temporary" class="btn-danger btn-md">&#10008; Data Terhapus</a>
+              <div class="table-responsive">
+                <table>
+                  <tr>
+                    <th>&#8470;</th>
+                    <th>Nama Anggota</th>
+                    <th>Buku</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Tanggal Kembali</th>
+                    <th>Ditambahkan</th>
+                    <th>Aksi</th>
+                  </tr>';
+                $query = "SELECT * FROM tb_transaksi WHERE deleted_at IS NULL ORDER BY created_at DESC";
+                $sql = mysqli_query($koneksi,$query);
+                $count = mysqli_num_rows($sql);
+                $i=1;
+                while($row = mysqli_fetch_assoc($sql))
+                {
+                  echo '<tr>';
+                  echo '<td>'.$i++.'</td>';
+                  echo '<td>'.$row['anggota'].'</td>';
+                  echo '<td>'.$row['buku'].'</td>';
+                  echo '<td>'.$row['tanggal_pinjam'].'</td>';
+                  echo '<td>'.$row['tanggal_kembali'].'</td>';
+                  echo '<td>'.date("d M Y, G:i", strtotime($row['created_at'])).' WIB </td>';
+                  echo '<td>
+                          <a href="?pages='.$pages.'&views=edit&id='.$row['id'].'" class="btn-warning btn-sm">&#9998;</a>
+                          <a href="?pages='.$pages.'&views=hapus&id='.$row['id'].'" class="btn-danger btn-sm">&#10008;</a>
+                        </td>';
+                  echo '</tr>';
+                }
+                if($count<=0){
+                  echo '<tr><td colspan="8">Data kosong</td></tr>';
+                }
+            echo '</table>
+                </div><!-- ./table-responsive -->
+              <span class="data-count">'.$count.' Data ditemukan</span>
+            </div><!-- ./wrapper -->
+          ';
+      }
+      // End views index
+
+      // Views tambah transaksi
+      if($views == 'tambah')
+      {
+        $get_name = htmlspecialchars(GET('name',''));
+        $get_book = htmlspecialchars(GET('book',''));
+        // Cek apakah ada variabel dari form yang masih kosong
+        if($exec!='' && $anggota!='' && $buku!='' && $tgl_pinjam!='' && $tgl_kembali!=''){
+          $id = md5(time());
+          $query = "INSERT INTO tb_kategori  VALUES ('$id','$anggota','$buku','$tgl_pinjam','$tgl_kembali',NOW(),NOW(),NULL)";
+          $sql = mysqli_query($koneksi,$query);
+          if($sql){
+            GET('exec','');
+            header('Location:?pages='.$pages.'&views=kategori');
+          }
+        }
+        echo '<fieldset class="box-shadow fieldset"><legend class="box-shadow">Tambah Transaksi</legend>
+              <form name="formtambahTransaksi" action="?pages='.$pages.'&views='.$views.'" method="POST">
+                <input type="hidden" name="exec" value="'.time().'">';
+                echo '<div class="form-group">
+                        <label for="anggota">Anggota</label><br>
+                        <input type="text" name="anggpta" placeholder="Masukkan nama anggota" id="anggota_keyword" class="form-control" value="'.$get_name.'" required>
+                      </div>';
+                      echo '<div id="list_anggota"></div>';
+                echo '<div class="form-group">
+                        <label for="buku">Buku</label><br>
+                        <input type="text" name="buku" placeholder="Masukkan nama buku" id="buku_keyword" class="form-control" value="'.$get_book.'" required>
+                      </div>';
+                      echo '<div id="list_buku"></div>';
+                echo '<div class="form-group">
+                        <label for="tgl_pinjam">Tanggal Pinjam</label><br>
+                        <input type="date" name="tanggal_pinjam" id="tgl_pinjam" class="form-control" required>
+                      </div>';
+                echo '<div class="form-group">
+                        <label for="tgl_kembali">Tanggal Kembali</label><br>
+                        <input type="date" name="tanggal_kembali" id="tgl_kembali" class="form-control" required>
+                      </div>';
+                echo '<button type="submit" class="btn-simpan btn-md">Simpan</button>
+                      <a href="?pages='.$pages.'&views=index" class="btn-default btn-md">Kembali</a>
+                  </form>
+                </fieldset>
+            ';
+      }
+      // End views tambah transaksi
+    }
+    // End pages transaksi
+  }
+  // END FUNCTION TRANSAKSI
+
+  /*
   ======================================================
   ##### HALAMAN PROFILE ADMIN
   ======================================================
@@ -1184,4 +1301,5 @@
     }
     // end page update data admin
   }
+  // END FUNCTION PROFILE ADMIN
 ?>

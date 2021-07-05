@@ -6,6 +6,7 @@ function layoutHeader(){
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" type="text/css" href="assets/style.css">
+            <link rel=”icon” href=”assets/icons/books.png”>
             <title>SI-Perpustakaan</title>
         </head>
         <body>
@@ -62,6 +63,8 @@ function layoutFooter(){
           </div><!-- ./main -->
         </div> <!--./container-->
       <script src="assets/script.js"></script>
+      <script src="app/ajax/anggota.js"></script>
+      <script src="app/ajax/buku.js"></script>
     </body>
   </html>
 ';

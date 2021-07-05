@@ -16,7 +16,7 @@
       buku();
     }
     if($page == 'transaksi'){
-      echo 'transaksi';
+      transaksi();
     }
     if($page == 'anggota'){
       anggota();

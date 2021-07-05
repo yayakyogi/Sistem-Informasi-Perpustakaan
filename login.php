@@ -2,6 +2,33 @@
 session_start();
 include 'app/koneksi.php';
 
+// cek cookie
+if(isset($_COOKIE['id']) && isset($_COOKIE['key']))
+{
+  $id = $_COOKIE['id'];
+  $key = $_COOKIE['key'];
+
+  // cari user berdasarkan id
+  $query = "SELECT email,roles FROM tb_admin WHERE id = '$id'";
+  $sql = mysqli_query($koneksi,$query);
+  $row = mysqli_fetch_assoc($sql);
+  
+  // cek email dan key
+  if($key === hash('sha256',$row['email']))
+  {
+    if($row['roles'] == 'superadmin')
+    {
+        $_SESSION['isLoginSuperadmin']=true;
+        $_SESSION['email']=$row['email'];
+    }
+    else if($row['roles'] == 'admin')
+    {
+        $_SESSION['isLoginAdmin']=true;
+        $_SESSION['email']=$row['email'];
+    }
+  }
+}
+
 // cek apakah session login masih ada atau tidak
 if(isset($_SESSION['isLoginSuperadmin']))
 {
@@ -51,11 +78,17 @@ if(isset($_POST['submit']))
         }
         // buat session
         $_SESSION['isLoginSuperadmin']=true;
-        echo $_SESSION['user_id']=$row['email'];
-        // header("Location:app/superadmin/index.php"); 
+        $_SESSION['email']=$row['email'];
+        header("Location:app/superadmin/index.php"); 
       }
       else
       {
+        if(isset($_POST['rememberme']))
+        {
+          // menset cookie agar bisa auto login setelah keluar browser
+          setcookie('id',$row['id'],time()+60);
+          setcookie('key',hash('sha256',$row['email'],time()+60));
+        }
         // jika yang login admin
         $_SESSION['isLoginAdmin']=true;
         $_SESSION['email']=$row['email'];
@@ -74,6 +107,7 @@ echo '<!DOCTYPE html>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="assets/style.css">
+        <link rel="shortcut icon" href=”assets/icons/books.png”>
         <title>SIMP</title>
       </head>
       <body>
