@@ -418,6 +418,29 @@ table td:nth-child(1) {
   color: white;
   border-radius: 5px;
 }
+.status {
+  padding: 5px;
+  border-radius: 5px;
+}
+.status-edit {
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.status-danger {
+  background: #dc3545;
+  color: white;
+}
+.status-success {
+  background: #509e50;
+  color: white;
+}
+.status-warning {
+  background: #ffc107;
+  color: black;
+}
 /* Form */
 .wrapper,
 .fieldset {
@@ -461,6 +484,9 @@ textarea {
 .form-control::placeholder {
   color: #aaaaaa;
   opacity: 0.7;
+}
+.show-input {
+  display: none;
 }
 .btn-simpan {
   border: none;

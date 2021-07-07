@@ -1,6 +1,7 @@
 // ambil keyword
 var anggota_keyword = document.getElementById("anggota_keyword");
 var list_anggota = document.getElementById("list_anggota");
+var select = document.getElementById("select");
 
 // tambahkan event ketika form diketik
 anggota_keyword.addEventListener("keyup", function () {
@@ -10,6 +11,7 @@ anggota_keyword.addEventListener("keyup", function () {
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
       list_anggota.innerHTML = xhr.responseText;
+      anggota_keyword.value = "value";
     }
   };
   // eksekusi ajax

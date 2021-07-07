@@ -30,12 +30,12 @@ if(isset($_COOKIE['id']) && isset($_COOKIE['key']))
 }
 
 // cek apakah session login masih ada atau tidak
-if(isset($_SESSION['isLoginSuperadmin']))
+if(isset($_SESSION['isLoginAdmin']))
 {
-  header("Location:app/superadmin/index.php");
+  header("Location:app/admin/index.php");
   exit;
 }
-if(isset($_SESSION['isLoginAdmin']))
+if(isset($_SESSION['isLoginSuperadmin']))
 {
   header("Location:index.php");
   exit;
@@ -67,7 +67,7 @@ if(isset($_POST['submit']))
     if(password_verify($pass,$row['password']))
     {  
     // cek roles
-      if($row['roles'] == 'superadmin')
+      if($row['roles'] == 'admin')
       {
         // cek tombol checkbox
         if(isset($_POST['rememberme']))
@@ -77,9 +77,9 @@ if(isset($_POST['submit']))
           setcookie('key',hash('sha256',$row['email'],time()+60));
         }
         // buat session
-        $_SESSION['isLoginSuperadmin']=true;
+        $_SESSION['isLoginAdmin']=true;
         $_SESSION['email']=$row['email'];
-        header("Location:app/superadmin/index.php"); 
+        header("Location:app/admin/index.php"); 
       }
       else
       {
@@ -90,7 +90,7 @@ if(isset($_POST['submit']))
           setcookie('key',hash('sha256',$row['email'],time()+60));
         }
         // jika yang login admin
-        $_SESSION['isLoginAdmin']=true;
+        $_SESSION['isLoginSuperadmin']=true;
         $_SESSION['email']=$row['email'];
         header("Location:index.php");
       }

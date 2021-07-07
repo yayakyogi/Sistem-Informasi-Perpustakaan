@@ -39,8 +39,10 @@ function layoutSidebar($nama){
             <a href="?pages=dashboard&views=index"><img src="assets/icons/dashboard.png" alt="dashboard">Dashboard</a>
             <a href="?pages=buku&views=index"><img src="assets/icons/contact-list.png" alt="contact">Data Buku</a>
             <a href="?pages=transaksi&views=index"><img src="assets/icons/transaction-history.png" alt="transaction">Data Transaksi</a>
-            <a href="?pages=anggota&views=index"><img src="assets/icons/group.png" alt="group">Data Anggota</a>
-            <a href="app/logout.php"><img src="assets/icons/logout.png" class="img-logout">Logout</a>
+            <a href="?pages=anggota&views=index"><img src="assets/icons/group.png" alt="group">Data Anggota</a>';
+            if($_SESSION['isLoginSuperadmin'])
+              echo '<a href="?pages=admin&views=index"><img src="assets/icons/admin.png" alt="group">Data Admin</a>';    
+            echo '<a href="app/logout.php"><img src="assets/icons/logout.png" class="img-logout">Logout</a>
         </div>
     </div>
   ';
@@ -65,6 +67,7 @@ function layoutFooter(){
       <script src="assets/script.js"></script>
       <script src="app/ajax/anggota.js"></script>
       <script src="app/ajax/buku.js"></script>
+      <script src="app/ajax/status.js"></script>
     </body>
   </html>
 ';

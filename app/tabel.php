@@ -11,6 +11,7 @@
               telepon VARCHAR(32) NOT NULL,
               password VARCHAR(32) NOT NULL,
               roles VARCHAR(32) NOT NULL,
+              photos VARCHAR(255) NOT NULL,
               created_at DATETIME NOT NULL,
               updated_at DATETIME NOT NULL,
               deleted_at DATETIME NULL,
@@ -41,11 +42,12 @@
   function tb_tranksaksi($koneksi)
   {
     $query = "CREATE TABLE IF NOT EXISTS tb_transaksi(
-              id INT(20) NOT NULL,
+              id VARCHAR(32) NOT NULL,
               anggota VARCHAR(255) NOT NULL,
               buku VARCHAR (255) NOT NULL,
-              tanggal_pinjam DATETIME NOT NULL,
-              tanggal_kembali DATETIME NULL,
+              tanggal_pinjam VARCHAR (200),
+              tanggal_kembali VARCHAR (200),
+              status VARCHAR(200);
               created_at DATETIME NOT NULL,
               updated_at DATETIME NOT NULL,
               deleted_at DATETIME NULL,

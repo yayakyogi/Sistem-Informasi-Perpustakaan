@@ -2,28 +2,19 @@
   include 'koneksi.php';
   include 'template.php';
   include 'tabel.php';
-  include 'view_admin.php';
+  include 'view_superadmin.php';
   
   $page = GET('pages','dashboard');
   $view = GET('views','index');
 
   function halaman(){
     global $page;
-    if($page == 'dashboard'){
-      dashboard();
-    }
-    if($page == 'buku'){
-      buku();
-    }
-    if($page == 'transaksi'){
-      transaksi();
-    }
-    if($page == 'anggota'){
-      anggota();
-    }
-    if($page == 'profileAdmin'){
-      profileAdmin();
-    }
+    if($page == 'dashboard') dashboard();
+    if($page == 'buku') buku();
+    if($page == 'transaksi') transaksi();
+    if($page == 'anggota') anggota();
+    if($page == 'profileAdmin') profileAdmin();
+    if($page == 'admin') admin();
   }
 
   function main(){
