@@ -14,11 +14,10 @@ function layoutHeader(){
 }
 
 // fungsi sidebar
-function layoutSidebar($nama){
+function layoutSidebar($nama,$photo){
   $page = GET('pages','');
   if(!isset($_GET['pages']) && !isset($_GET['views'])) {
       $page = 'dashboard';
-      $view = 'index';
   }
   echo '<!-- Sidebar -->
         <div class="sidebar">
@@ -28,7 +27,7 @@ function layoutSidebar($nama){
             <span class="sidebar-close">&times;</span>
             </div>
             <div class="sidebar-akun">
-              <img src="assets/img/male-default.svg" alt="img-sidebar">
+              <img src="assets/profile_admin/'.$photo.'" class="img-sidebarakun" alt="img-sidebar">
               <div class="sidebar-user">
                 <p>'.$nama.'</p>
                 <a href="?pages=profileAdmin&views=index"><img src="assets/icons/search.png" alt="img-search"></a>
@@ -40,8 +39,9 @@ function layoutSidebar($nama){
             <a href="?pages=buku&views=index"><img src="assets/icons/contact-list.png" alt="contact">Data Buku</a>
             <a href="?pages=transaksi&views=index"><img src="assets/icons/transaction-history.png" alt="transaction">Data Transaksi</a>
             <a href="?pages=anggota&views=index"><img src="assets/icons/group.png" alt="group">Data Anggota</a>';
-            if($_SESSION['isLoginSuperadmin'])
-              echo '<a href="?pages=admin&views=index"><img src="assets/icons/admin.png" alt="group">Data Admin</a>';    
+            if(isset($_SESSION['isLoginSuperadmin']))
+              echo '<a href="?pages=admin&views=index"><img src="assets/icons/admin.png" alt="group">Data Admin</a>';  
+            echo '<a href="?pages=developer&views=index"><img src="assets/icons/card.png" alt="group">Developer</a>';  
             echo '<a href="app/logout.php"><img src="assets/icons/logout.png" class="img-logout">Logout</a>
         </div>
     </div>
@@ -65,8 +65,6 @@ function layoutFooter(){
           </div><!-- ./main -->
         </div> <!--./container-->
       <script src="assets/script.js"></script>
-      <script src="app/ajax/anggota.js"></script>
-      <script src="app/ajax/buku.js"></script>
       <script src="app/ajax/status.js"></script>
     </body>
   </html>

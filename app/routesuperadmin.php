@@ -15,14 +15,16 @@
     if($page == 'anggota') anggota();
     if($page == 'profileAdmin') profileAdmin();
     if($page == 'admin') admin();
+    if($page == 'developer') aboutme();
   }
 
   function main(){
     global $page;
     global $view;
     $nama = $_SESSION['email'];
+    $photo = $_SESSION['photo'];
     layoutHeader();
-    layoutSidebar($nama);
+    layoutSidebar($nama,$photo);
     layoutNavbar();
     echo '<div class="main-content">';
     echo '<div class="breadcrumb">';

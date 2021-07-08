@@ -1,0 +1,12 @@
+URL 
+
+Roles Admin
+username : taka@gmail.com
+password : 12345678
+
+Roles SuperAdmin
+username : ginantaka@gmail.com
+password : 12345678
+
+nama website : sistem-infromasi-perpustakaan
+password : VmEIZl7#@BUv(fB*Ng8%

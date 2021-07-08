@@ -76,9 +76,14 @@ body {
   background-color: #2e3336;
   width: 100%;
 }
+.img-sidebarakun {
+  width: 100px;
+  height: 100px;
+}
 .sidebar-akun img {
   max-width: 100px;
   margin-bottom: 10px;
+  border-radius: 50%;
 }
 .sidebar-akun span a img {
   max-width: 20px;
@@ -344,6 +349,7 @@ table td:nth-child(1) {
 .picture-admin img {
   width: 110px;
   height: 110px;
+  border-radius: 50%;
 }
 /* Button */
 .btn-primary,
@@ -516,7 +522,7 @@ textarea {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 635px;
+  height: 628px;
   font-family: "Poppins-Regular";
 }
 .wave-login {

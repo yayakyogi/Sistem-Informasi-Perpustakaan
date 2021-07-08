@@ -2,6 +2,10 @@
 session_start();
 include 'app/koneksi.php';
 
+function alert($message)
+{
+  echo "<script>alert('$message');</script>";
+}
 // cek cookie
 if(isset($_COOKIE['id']) && isset($_COOKIE['key']))
 {
@@ -32,7 +36,7 @@ if(isset($_COOKIE['id']) && isset($_COOKIE['key']))
 // cek apakah session login masih ada atau tidak
 if(isset($_SESSION['isLoginAdmin']))
 {
-  header("Location:app/admin/index.php");
+  header("Location:admin.php");
   exit;
 }
 if(isset($_SESSION['isLoginSuperadmin']))
@@ -46,7 +50,7 @@ if(isset($_GET['pesan']))
 {
   if($_GET['pesan'] == 'error_login')
   {
-    echo "Anda belum login, silahkan login terlebih dahulu";
+    alert("Anda belum login, silahkan login terlebih dahulu");
   }
 }
 
@@ -79,7 +83,9 @@ if(isset($_POST['submit']))
         // buat session
         $_SESSION['isLoginAdmin']=true;
         $_SESSION['email']=$row['email'];
-        header("Location:app/admin/index.php"); 
+        $_SESSION['photo']=$row['photo'];
+        $_SESSION['roles']=$row['roles'];
+        header("Location:admin.php");
       }
       else
       {
@@ -92,14 +98,16 @@ if(isset($_POST['submit']))
         // jika yang login admin
         $_SESSION['isLoginSuperadmin']=true;
         $_SESSION['email']=$row['email'];
+        $_SESSION['photo']=$row['photo'];
+        $_SESSION['roles']=$row['roles'];
         header("Location:index.php");
       }
     }
     else
-      echo "Password salah silahkan ulangi lagi";
+      alert("Password salah silahkan ulangi lagi");
   }
   else
-    echo "Email tidak terdaftar";
+    alert("Email tidak terdaftar");
 }
 
 echo '<!DOCTYPE html>

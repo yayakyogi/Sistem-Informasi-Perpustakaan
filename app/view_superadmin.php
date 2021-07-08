@@ -7,28 +7,9 @@
   $pages = GET('pages','');
   $views = GET('views','');
   
-  function notifSuccess()
+  function alert($message)
   {
-    if(isset($_GET['pesan_sukses']))
-    {
-      echo '<div class="alert">';
-      echo '<div>';
-      if($_GET['pesan_sukses'] == 'sukses_tambah')
-      {
-        echo 'Sukses menambah data';
-      }
-      if($_GET['pesan_sukses'] == 'sukses_edit')
-      {
-        echo 'Sukses mengubah data';
-      }
-      if($_GET['pesan_sukses'] == 'sukses_hapus')
-      {
-        echo 'Sukses menghapus data';
-      }
-      echo '</div>';
-      echo '<a href="&views=index" id="close">#10008;</a>';
-      echo '</div>';
-    }
+    echo "<script>alert('$message');</script>";
   }
 
   // FUNCTION ANGGOTA
@@ -56,7 +37,6 @@
           echo '<div class="wrapper">
               <a href="?pages='.$pages.'&views=tambah" class="btn-success btn-md">&#10010; Tambah Anggota</;>
               <a href="?pages='.$pages.'&views=temporary" class="btn-danger btn-md">&#10008; Data Terhapus</a>
-              '.notifSuccess().'
               <div class="table-responsive">
                 <table>
                   <tr>
@@ -106,11 +86,11 @@
         // Cek apakah ada variabel dari form yang masih kosong
         if($exec!='' && $nama!='' && $jenis_kelamin!='' && $alamat!='' && $email!='' && $telepon!=''){
           // cek email apakah sudah terdaftar
-          $email = "SELECT email FROM tb_anggota WHERE email='$email'";
-          $sql = mysqli_query($koneksi,$email);
+          $main = "SELECT email FROM tb_anggota WHERE email='$email'";
+          $sql = mysqli_query($koneksi,$main);
           $count = mysqli_num_rows($sql);
           if($count>0){
-            echo "Email sudah pernah terdaftar silahkan gunakan email anda yang lain";
+            alert("Email sudah pernah terdaftar silahkan gunakan email anda yang lain");
           }
           // jika email belum terdaftar
           $id = md5(time());
@@ -395,15 +375,15 @@
   {
     global $koneksi;
     // cari jumlah buku
-    $query_buku = "SELECT * FROM tb_buku";
+    $query_buku = "SELECT * FROM tb_buku WHERE deleted_at IS NULL";
     $sql_buku = mysqli_query($koneksi,$query_buku);
     $jml_buku = mysqli_num_rows($sql_buku);
     // cari jumlah anggota
-    $query_anggota = "SELECT * FROM tb_anggota";
+    $query_anggota = "SELECT * FROM tb_anggota WHERE deleted_at IS NULL";
     $sql_anggota = mysqli_query($koneksi,$query_anggota);
     $jml_anggota = mysqli_num_rows($sql_anggota);
     // cari jumlah transaksi
-    $query_transaksi = "SELECT * FROM tb_transaksi";
+    $query_transaksi = "SELECT * FROM tb_transaksi WHERE deleted_at IS NULL";
     $sql_transaksi = mysqli_query($koneksi,$query_transaksi);
     $jml_transaksi = mysqli_num_rows($sql_transaksi);
 
@@ -566,8 +546,8 @@
                     GET('exec','');
                     header('Location:?pages='.$pages.'&views=index');
                   } else echo mysqli_error($koneksi);
-                } else echo "Ukuran file lebih dari 2Mb" ;
-              } else echo "Ektensi file tidak diizinkan";
+                } else alert("Ukuran file lebih dari 2Mb");
+              } else alert("Ektensi file tidak diizinkan");
           }
           // Jika tidak ada file yang di upload
           else
@@ -884,8 +864,8 @@
                     GET('exec','');
                     header('Location:?pages='.$pages.'&views=index');
                   } else echo mysqli_error($koneksi);
-                } else echo "Ukuran file lebih dari 2Mb" ;
-              } else echo "Ektensi file tidak diizinkan";
+                } else alert("Ukuran file lebih dari 2Mb") ;
+              } else alert("Ektensi file tidak diizinkan");
             GET('exec','');
           }
         }
@@ -925,7 +905,7 @@
               <div class="table-responsive">
                 <table>
                   <tr>
-                    <th>&#8470;</th>
+                    <th width=5%>&#8470;</th>
                     <th>Kategori</th>
                     <th>Ditambahkan</th>
                     <th>Aksi</th>
@@ -937,7 +917,7 @@
                 while($row = mysqli_fetch_assoc($sql))
                 {
                   echo '<tr>';
-                  echo '<td>'.$i++.'</td>';
+                  echo '<td style="text-align:center;">'.$i++.'</td>';
                   echo '<td>'.$row['kategori'].'</td>';
                   echo '<td>'.date("d M Y, G:i", strtotime($row['created_at'])).' WIB </td>';
                   echo '<td>
@@ -1102,7 +1082,6 @@
                     <th>Pinjam</th>
                     <th>Kembali</th>
                     <th>Status</th>
-                    <th>Cek</th>
                     <th>Ditambahkan</th>
                     <th>Aksi</th>
                   </tr>';
@@ -1130,11 +1109,6 @@
                         if($row['status'] === 'Dikembalikan') echo '<div class="status status-success">'.$row['status'].'</div>';
                         // if($row['status'] === 'Terlambat') echo '<div class="status status-danger">'.$row['status'].'</div>';
                   echo '</td>';
-                  // cek apakah sudah dikembalikan atau terlamabat, jika ya maka hilangkan checkbox
-                  if($row['status'] === 'Dikembalikan') echo '<td>&#10004;</td>';
-                  else if(($row['status'] === 'Dipinjam' || $row['status'] === 'Terlambat') && $expire_time<$today_time) echo '<td>&#10008;</td>';
-                  else
-                    echo '<td align="center"><input type="checkbox" name="status" value='.$row['id'].' id="statusTransaksi" onclick="if(this.checked){status()}"></td>';
                   echo '<td>'.date("d M Y, G:i", strtotime($row['created_at'])).' WIB </td>';
                   echo '<td>
                           <a href="?pages='.$pages.'&views=edit&id='.$row['id'].'" class="btn-warning btn-sm">&#9998;</a>
@@ -1162,7 +1136,7 @@
           $time_pinjam = strtotime($tgl_pinjam);
           $time_kembli = strtotime($tgl_kembali);
           if($time_kembli<$time_pinjam)
-            echo 'Tanggal kembali seharusnya lebih dari tanggal pinjam';
+            alert("Tanggal kembali seharusnya lebih dari tanggal pinjam");
           else
           {
             $name = ucwords($anggota);
@@ -1216,7 +1190,7 @@
           $time_pinjam = strtotime($tgl_pinjam);
           $time_kembli = strtotime($tgl_kembali);
           if($time_kembli<$time_pinjam)
-            echo 'Tanggal kembali seharusnya lebih dari tanggal pinjam';
+            alert("Tanggal kembali seharusnya lebih dari tanggal pinjam");
           else
           {
             $query = "UPDATE tb_transaksi SET anggota='$anggota',buku='$buku',tanggal_pinjam='$tgl_pinjam',tanggal_kembali='$tgl_kembali',status='$stts',updated_at=NOW() WHERE id = '$id'";
@@ -1289,12 +1263,6 @@
                           <label for="tgl_kembali">Tanggal Kembali</label>
                           <input type="date" name="tanggal_kembali" class="form-control" value="'.$row['tanggal_kembali'].'">
                         </div>';
-                  // echo '<div class="form-group">
-                  //         <label for="status">Status Buku</label><br>';
-                  //         echo '<input id="status" type="radio" name="status" value="Dipinjam" style="margin:10px 0"'; if($status== 'Dipinjam') echo "checked" ; echo'> <span class="value-radio">Dipinjam</span>';
-                  //         echo '<input id="status" type="radio" name="status" value="Dikembalikan" style="margin:10px 0 10px 5px;"'; if($status == "Dikembalikan") echo "checked"; echo'> <span class="value-radio">Dikembalikan</span>';
-                  //         echo '<input id="status" type="radio" name="status" value="Terlambat" style="margin:10px 0 10px 5px;"'; if($status == "Terlambat") echo "checked"; echo'> <span class="value-radio">Terlambat</span>
-                  //       </div><br>';
                   echo '<br>';
                   echo '<button type="submit" class="btn-simpan btn-md">Simpan</button>
                       <a href="?pages='.$pages.'&views=index" class="btn-default btn-md">Kembali</a>
@@ -1527,7 +1495,6 @@
           echo '<div class="wrapper">
               <a href="?pages='.$pages.'&views=tambah" class="btn-success btn-md">&#10010; Tambah Admin</;>
               <a href="?pages='.$pages.'&views=temporary" class="btn-danger btn-md">&#10008; Data Terhapus</a>
-              '.notifSuccess().'
               <div class="table-responsive">
                 <table>
                   <tr>
@@ -1593,9 +1560,9 @@
                   GET('exec','');
                   header('Location:?pages='.$pages.'&views=index');
                 } else echo mysqli_error($koneksi);
-              } else echo "Jumlah password minimal 8 karakter";
-            } else echo "Password tidak sama silahkan ulangi";
-          } else echo "Email sudah pernah terdaftar silahkan gunakan email anda yang lain";
+              } else alert("Jumlah password minimal 8 karakter");
+            } else alert("Password tidak sama silahkan ulangi");
+          } else alert("Email sudah pernah terdaftar silahkan gunakan email anda yang lain");
         }
         echo '<fieldset class="box-shadow fieldset"><legend class="box-shadow">Tambah Admin</legend>
               <form name="formtambahAdmin" action="?pages='.$pages.'&views='.$views.'" method="POST">
@@ -1665,9 +1632,9 @@
                   GET('id','');
                   header('Location:?pages='.$pages.'&views=index');
                 } else echo mysqli_error($koneksi);
-              } else echo "Jumlah password minimal 8 karakter";
-            } else echo "Password tidak sama silahkan ulangi";
-          } else echo "Email sudah pernah terdaftar silahkan gunakan email anda yang lain";
+              } else alert("Jumlah password minimal 8 karakter");
+            } else alert("Password tidak sama silahkan ulangi");
+          } else alert("Email sudah pernah terdaftar silahkan gunakan email anda yang lain");
         }
 
         $query = "SELECT * FROM tb_admin WHERE id = '$id'";
@@ -1705,7 +1672,7 @@
                           echo '<input type="radio" name="roles" value="admin" style="margin:10px 0 10px 5px;"'; if($row["roles"] == "admin") echo "checked"; echo'> <span class="value-radio">Admin</span>
                         </div>';
                   echo '<a href="?pages='.$pages.'&views=updatephoto&id='.$row['id'].'" class="btn-warning btn-sm">&#9998; Edit photo</a>';
-                   echo '<a href="?pages='.$pages.'&views=updatepassword&id='.$row['id'].'" class="btn-success btn-sm">&#128065 Edit password</a><br><br>';
+                  echo '<a href="?pages='.$pages.'&views=updatepassword&id='.$row['id'].'" class="btn-success btn-sm">&#128065 Edit password</a><br><br>';
                   echo '<button type="submit" class="btn-simpan btn-md">Simpan</button>   
                    <a href="?pages='.$pages.'&views=index" class="btn-default btn-sm">Kembali</a>
                   </form>       
@@ -1968,9 +1935,9 @@
                 GET('exec','');
                 header('Location:?pages='.$pages.'&views=index');
               }
-            } else echo "Password minimal harus 8 karakter";
+            } else alert("Password minimal harus 8 karakter");
           }
-          else echo "Password tidak sama silahkan ulangi lagi";
+          else alert("Password tidak sama silahkan ulangi lagi");
         }
 
         $query = "SELECT * FROM tb_admin WHERE id = '$id'";
@@ -2015,6 +1982,8 @@
     $alamat = htmlspecialchars(GET('alamat',''));
     $email = htmlspecialchars(GET('email',''));
     $telepon = htmlspecialchars(GET('telepon',''));
+    $password = htmlspecialchars(GET('password',''));
+    $password_confirm = htmlspecialchars(GET('password_confirm',''));
 
     $email = $_SESSION['email'];
     // page index admin
@@ -2027,8 +1996,7 @@
           <div class="wrapper">
             <h2>Profil Admin</h2><br>
             <div class="picture-admin">
-              <img src="assets/img/male-default.svg" alt="img-sidebar"><br>
-              <a href="#">Update Photo</a>
+              <img src="assets/img/male-default.svg" alt="img-sidebar">
             </div>
             <div class="table-responsive">
               <table class="table-profile">
@@ -2051,6 +2019,10 @@
                 <tr>
                   <td>No Telepon</td>
                   <td>'.$result['telepon'].'</td>
+                </tr>
+                <tr>
+                  <td>Roles</td>
+                  <td>'.ucwords($result['roles']).'</td>
                 </tr>
               </table>
               <br>
@@ -2109,13 +2081,168 @@
                           <label for="no_telepon">No Telepon</label>
                           <input type="text" class="form-control" name="telepon" value="'.$row['telepon'].'"/>
                         </div>';
+                  echo '<a href="?pages='.$pages.'&views=updatephoto&id='.$row['id'].'" class="btn-warning btn-sm">&#9998; Edit photo</a>';
+                  echo '<a href="?pages='.$pages.'&views=updatepassword&id='.$row['id'].'" class="btn-success btn-sm">&#128065 Edit password</a><br><br>';
                   echo '<button type="submit" class="btn-simpan btn-md">Simpan</button>
-                      <a href="?pages='.$pages.'&views=index" class="btn-default btn-md">Kembali</a>
-                  </form>
+                      <a href="?pages='.$pages.'&views=index" class="btn-default btn-md">Kembali</a>';
+                  echo '</form>
               </fieldset>
           ';
     }
     // end page update data admin
+
+    // update photo
+    if($views == "updatephoto")
+    {
+        $id = GET('id','');
+        $exec = GET('exec','');
+        if($id!='' && $exec!='')
+        {
+          $nama_file = $_FILES['photo']['name']; // tangkap nama file
+          if($nama_file!='')
+          {
+           $x = explode('.',$nama_file); // pisahkan nama file dengan ektenasi
+            $ekstensi = strtolower(end($x)); // ubah ektensi file yang didapat ke lower case
+            $file_tmp = $_FILES['photo']['tmp_name']; // tangkap file temporary file
+            $size = $_FILES['photo']['size']; // tangkap ukuran file
+            $target_dir = "assets/profile_admin/"; // direktori tempat menyimpan file
+            $ektensi_diperbolehkan = array('png','jpg','jpeg');
+            // cek ekstensi yang diperbolehkan
+              if(in_array($ekstensi,$ektensi_diperbolehkan) === true)
+              {
+                // cek ukuran file
+                if($size<2044070)
+                {
+                  $time = time(); // buat variabel untuk menyimpan waktu
+                  $file = $time.'_'.$nama_file; // gabungkan variabel time dan nama file untuk merubah nama file dan simpan di variabel $file
+                  move_uploaded_file($file_tmp,$target_dir.$file); // pindahkan file ke folder local
+                  echo $query = "UPDATE tb_admin SET photo='$file' WHERE id='$id'";
+                  $sql = mysqli_query($koneksi,$query);
+                  if($sql){
+                    GET('exec','');
+                    header('Location:?pages='.$pages.'&views=index');
+                  } else echo mysqli_error($koneksi);
+                } else alert("Ukuran file lebih dari 2Mb") ;
+              } else alert("Ektensi file tidak diizinkan");
+            GET('exec','');
+          }
+        }
+        $query = "SELECT * FROM tb_admin WHERE id = '$id' AND deleted_at IS NULL";
+        $sql = mysqli_query($koneksi,$query);
+        $row = mysqli_fetch_assoc($sql);
+        echo '<fieldset class="box-shadow fieldset"><legend class="box-shadow">Update Cover</legend>
+                <img src="assets/profile_admin/'.$row['photo'].'" class="img_cover_edit"/>
+                <br><br>
+                <form name="formEditAdmin" action="?pages='.$pages.'&views='.$views.'" method="POST" enctype="multipart/form-data">
+                  <input type="hidden" name="exec" value="'.time().'">
+                  <input type="hidden" name="id" value="'.$row['id'].'">';
+                  echo '<div class="form-group">
+                          <label for="photo">Upload Cover Buku Baru</label><br>
+                          <input type="file" name="photo" id="photo" class="form-control" required>
+                        </div>';
+                  echo '<br>';
+                  echo '<button type="submit" class="btn-simpan btn-md">Simpan</button>
+                      <a href="?pages='.$pages.'&views=update&id='.$row['id'].'" class="btn-default btn-md">Kembali</a>
+                  </form>
+              </fieldset>
+          ';
+    }
+    // end update photo data admin
+
+    // views edit password pages data admin
+    if($views == "updatepassword")
+    {
+        $id = GET('id','');
+        $exec = GET('exec','');
+
+        if($exec!='' && $password!='' && $password_confirm!='')
+        {
+          if($password==$password_confirm){
+            if(strlen($password)>=8){
+              $hash = password_hash($password,PASSWORD_DEFAULT);
+              $query = "UPDATE tb_admin SET password='$hash',updated_at=NOW() WHERE id = '$id'";
+              $sql = mysqli_query($koneksi,$query);
+              $rows = mysqli_affected_rows($koneksi);
+              if($rows > 0)
+              {
+                GET('id','');
+                GET('exec','');
+                header('Location:?pages='.$pages.'&views=index');
+              }
+            } else alert("Password minimal harus 8 karakter");
+          }
+          else alert('Password tidak sama silahkan ulangi lagi');
+        }
+
+        $query = "SELECT * FROM tb_admin WHERE id = '$id'";
+        $sql = mysqli_query($koneksi,$query);
+        $row = mysqli_fetch_assoc($sql);
+
+        echo '<fieldset class="box-shadow fieldset"><legend class="box-shadow">Edit Password</legend>
+                <form name="formEditKategori" action="?pages='.$pages.'&views='.$views.'" method="POST">
+                  <input type="hidden" name="exec" value="'.time().'">
+                  <input type="hidden" name="id" value="'.$row['id'].'">';
+                  echo '<div class="form-group">
+                          <label for="password">Masukkan password baru</label><br>
+                          <input type="password" name="password" placeholder="Password baru" id="password" class="form-control" required>
+                        </div>';
+                  echo '<div class="form-group">
+                          <label for="password_confirm">Masukkan password baru</label><br>
+                          <input type="password" name="password_confirm" placeholder="Password baru" id="password_confirm" class="form-control" required>
+                        </div>';
+                  echo '<button type="submit" class="btn-simpan btn-md">Simpan</button>
+                      <a href="?pages='.$pages.'&views=update&id='.$row['id'].'" class="btn-default btn-md">Kembali</a>
+                  </form>
+              </fieldset>
+          ';
+    }
   }
   // END FUNCTION PROFILE ADMIN
+
+   // FUNCTION ABOUT ME
+  function aboutme()
+  {
+    global $views;
+    if($views=='index')
+    {
+      echo '
+          <div class="wrapper">
+            <h2>Developer</h2><br>
+            <div class="picture-admin">
+              <img src="assets/img/foto-profil.jfif" alt="img-sidebar">
+            </div>
+            <div class="table-responsive">
+              <table class="table-profile">
+                <tr>
+                  <td width="15%">Email</td>
+                  <td>yayaktaka@gmail.com</td>
+                </tr>
+                <tr>
+                  <td width="15%">Nama</td>
+                  <td>Yayak Yogi Ginantaka</td>
+                </tr>
+                <tr>
+                  <td>Jenis Kelamin</td>
+                  <td>Laki-laki</td>
+                </tr>
+                <tr>
+                  <td>Alamat</td>
+                  <td>Desa Bolorejo Kecamatan Kauman Kabupaten Tulungagung</td>
+                </tr>
+                <tr>
+                  <td>No Telepon</td>
+                  <td>082233863080</td>
+                </tr>
+                <tr>
+                  <td>Project</td>
+                  <td>Sekumpulan project cupu saya &#10152; <a href="https://github.com/yayakyogi">Lihat project</a></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+      ';
+    }
+    // end page index about me
+  }
+  // END FUNCTION ABOUT ME
 ?>
