@@ -97,7 +97,8 @@
           $sql = mysqli_query($koneksi,$query);
           if($sql){
             GET('exec','');
-            header('Location:?pages='.$pages.'&views=index');
+            $views='index';
+            echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
           }
           else mysqli_error($koneksi);
         }
@@ -147,7 +148,8 @@
           if($rows > 0)
           {
             GET('exec','');
-            header('Location:?pages='.$pages.'&views=index');
+            $views='index';
+            echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
           }
         }
 
@@ -201,7 +203,8 @@
           if($rows > 0)
           {
             GET('exec','');
-            header('Location:?pages='.$pages.'&views=index');
+            $views='index';
+            echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
           }
         }
 
@@ -401,7 +404,8 @@
                   $sql = mysqli_query($koneksi,$query);
                   if($sql){
                     GET('exec','');
-                    header('Location:?pages='.$pages.'&views=index');
+                    $views='index';
+                    echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
                   } else echo mysqli_error($koneksi);
                 } else alert("Ukuran file lebih dari 2Mb");
               } else alert("Ektensi file tidak diizinkan");
@@ -414,7 +418,8 @@
             $sql = mysqli_query($koneksi,$query);
             if($sql){
               GET('exec','');
-              header('Location:?pages='.$pages.'&views=index');
+              $views='index';
+              echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
             }
             else echo mysqli_error($koneksi);
           }
@@ -475,7 +480,8 @@
           if($rows > 0)
           {
             GET('exec','');
-            header('Location:?pages='.$pages.'&views=index');
+            $views='index';
+            echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
           }
         }
 
@@ -531,7 +537,8 @@
           if($rows > 0)
           {
             GET('exec','');
-            header('Location:?pages='.$pages.'&views=index');
+            $views='index';
+            echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
           }
         }
 
@@ -580,7 +587,8 @@
                   $sql = mysqli_query($koneksi,$query);
                   if($sql){
                     GET('exec','');
-                    header('Location:?pages='.$pages.'&views=index');
+                    $views='index';
+                    echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
                   } else echo mysqli_error($koneksi);
                 } else alert("Ukuran file lebih dari 2Mb") ;
               } else alert("Ektensi file tidak diizinkan");
@@ -623,7 +631,7 @@
               <div class="table-responsive">
                 <table>
                   <tr>
-                    <th>&#8470;</th>
+                    <th width=5%>&#8470;</th>
                     <th>Kategori</th>
                     <th>Ditambahkan</th>
                     <th>Aksi</th>
@@ -635,7 +643,7 @@
                 while($row = mysqli_fetch_assoc($sql))
                 {
                   echo '<tr>';
-                  echo '<td>'.$i++.'</td>';
+                  echo '<td style="text-align:center;">'.$i++.'</td>';
                   echo '<td>'.$row['kategori'].'</td>';
                   echo '<td>'.date("d M Y, G:i", strtotime($row['created_at'])).' WIB </td>';
                   echo '<td>
@@ -665,7 +673,8 @@
           $sql = mysqli_query($koneksi,$query);
           if($sql){
             GET('exec','');
-            header('Location:?pages='.$pages.'&views=kategori');
+            $views='kategori';
+            echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
           }
         }
         echo '<fieldset class="box-shadow fieldset"><legend class="box-shadow">Tambah Anggota</legend>
@@ -701,7 +710,8 @@
             mysqli_query($koneksi,$query);
             GET('id','');
             GET('exec','');
-            header('Location:?pages='.$pages.'&views=kategori');
+            $views='kategori';
+            echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
           }
         }
 
@@ -738,7 +748,8 @@
           if($rows > 0)
           {
             GET('exec','');
-            header('Location:?pages='.$pages.'&views=kategori');
+            $views='kategori';
+            echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
           }
         }
 
@@ -869,7 +880,8 @@
             $sql = mysqli_query($koneksi,$query);
             if($sql){
               GET('exec','');
-              header('Location:?pages='.$pages.'&views=index');
+              $views='index';
+              echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
             }
             else echo mysqli_error($koneksi);
           }
@@ -923,7 +935,8 @@
             {
               GET('id','');
               GET('exec','');
-              header('Location:?pages='.$pages.'&views=index');
+              $views='index';
+              echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
             }
           }
         }
@@ -1008,7 +1021,8 @@
           if($rows > 0)
           {
             GET('exec','');
-            header('Location:?pages='.$pages.'&views=index');
+            $views='index';
+            echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
           }
         }
 
@@ -1117,7 +1131,8 @@
         {
           GET('id','');
           GET('exec','');
-          header('Location:?pages='.$pages.'&views=index');
+          $views='index';
+          echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
         }
         else mysqli_error($koneksi);
       }
@@ -1189,7 +1204,8 @@
                   $sql = mysqli_query($koneksi,$query);
                   if($sql){
                     GET('exec','');
-                    header('Location:?pages='.$pages.'&views=index');
+                    $views='index';
+                    echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
                   } else echo mysqli_error($koneksi);
                 } else alert("Ukuran file lebih dari 2Mb") ;
               } else alert("Ektensi file tidak diizinkan");
@@ -1236,7 +1252,8 @@
               {
                 GET('id','');
                 GET('exec','');
-                header('Location:?pages='.$pages.'&views=index');
+                $views='index';
+                echo "<script>window.location='admin.php?pages=$pages&views=$views'</script>";
               }
             } else alert("Password minimal harus 8 karakter");
           }

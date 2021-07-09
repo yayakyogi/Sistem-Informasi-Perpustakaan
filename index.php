@@ -2,7 +2,7 @@
   session_start();
   include 'app/routesuperadmin.php';
   if(!isset($_SESSION['isLoginSuperadmin'])){
-    header("Location:login.php?pesan=error_login"); 
+      echo "<script>window.location='login.php'</script>";
     exit;
   }
   main();

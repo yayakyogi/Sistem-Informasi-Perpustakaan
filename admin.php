@@ -2,7 +2,7 @@
   session_start();
   include 'app/routesadmin.php';
   if(!isset($_SESSION['isLoginAdmin'])){
-    header("Location:login.php?pesan=error_login"); 
+    echo "<script>window.location='login.php'</script>";
     exit;
   }
   main_admin();
